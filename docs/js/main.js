@@ -796,8 +796,8 @@ ProveIt = (function($) {
                     contracts.Prover.address = "0x286e1143ab350d0238be4494da6dab9ca3662517";
                     break;
 		            case "Ellaism":
-				            contracts.Hash.address = "0x4ff59fc525071f4fdeccf140a0347b7431da4582";
-				            contracts.Prover.address = "0xe5e60b3386e98ba3324e9bb05ed0c3157cdb81ff";
+				            contracts.Hash.address = "0xfd45e9b7740d65abd83d39f924f802c3cff6d4f7";
+				            contracts.Prover.address = "0xbcbe459da3524686738bf47cc883a9e13cd67978";
 				            break;
 		            case "Shikinseki":
 				            contracts.Hash.address = "0x19ad75f110d5bdbd567a0c3fed48154d38054ace";
