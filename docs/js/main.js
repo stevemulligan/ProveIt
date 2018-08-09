@@ -1,7 +1,7 @@
 /*jshint esversion: 6 */
 ProveIt = (function($) {
     return {
-        web3Status: {"supportedNetworks": ["Mainnet", "Rinkeby (proof-of-authority)", "Ropsten (test)"]},
+        web3Status: {"supportedNetworks": ["Mainnet", "Rinkeby (proof-of-authority)", "Ropsten (test)", "Ellaism", "Shikinseki"]},
 
         changeTooltipTitle: function (tooltip, text) {
             var originalTitle = $(tooltip).attr("data-original-title");
@@ -67,9 +67,9 @@ ProveIt = (function($) {
             tabNames.map(x => {
                 $(`#${x}-tab`).addClass("disabled").removeAttr("href");
             });
-            var proveMessage = "prove" in messages ? messages.prove : "Your Web3 provider, the service that lets your browser interact with the Ethereum blockchain, seems to be malfunctioning. Please refresh the page and try again.";
-            var readMessage = "read" in messages ? messages.read : "Your Web3 provider, the service that lets your browser interact with the Ethereum blockchain, seems to be malfunctioning. Please refresh the page and try again.";
-            var submitMessage = "submit" in messages ? messages.submit : "To submit an entry to ProveIt, you'll need to interact with the Ethereum blockchain. To get started, install the secure digital wallet <a target='_blank' href='https://metamask.io/' class='nounderline'>MetaMask</a> and make sure you have enough ether to cover fees for a transaction or two.";
+            var proveMessage = "prove" in messages ? messages.prove : "Your Web3 provider, the service that lets your browser interact with Ethereum compatible blockchains, seems to be malfunctioning. Please refresh the page and try again.";
+            var readMessage = "read" in messages ? messages.read : "Your Web3 provider, the service that lets your browser interact with Ethereum compatible blockchains, seems to be malfunctioning. Please refresh the page and try again.";
+            var submitMessage = "submit" in messages ? messages.submit : "To submit an entry to ProveIt, you'll need to interact with Ethereum compatible blockchains. To get started, install the secure digital wallet <a target='_blank' href='https://metamask.io/' class='nounderline'>MetaMask</a> and make sure you have enough ether to cover fees for a transaction or two.";
             // add tooltips explaining why disabled
             if (tabNames.includes("submit")) {
                 $("#submit-tab")
@@ -151,7 +151,9 @@ ProveIt = (function($) {
                 var network = {
                     "Mainnet": "",
                     "Rinkeby (proof-of-authority)": "rinkeby.",
-                    "Ropsten (test)": "ropsten."}[ProveIt.web3Status.networkName];
+                    "Ropsten (test)": "ropsten.",
+		                "Ellaism": "ellaism.",
+		                "Shikinseki (test)": "shikinseki."}[ProveIt.web3Status.networkName];
                 for (let i=0; i < addresses.length; i++) {
                     entries.push(userEntry(addresses[i], names[i], network));
                 }
@@ -518,7 +520,9 @@ ProveIt = (function($) {
                         var network = {
                             "Mainnet": "",
                             "Rinkeby (proof-of-authority)": "rinkeby.",
-                            "Ropsten (test)": "ropsten."}[ProveIt.web3Status.networkName];
+                            "Ropsten (test)": "ropsten.",
+		                        "Ellaism": "ellaism.",
+		                        "Shikinseki (test)": "shikinseki."}[ProveIt.web3Status.networkName];
                         var txLink = `<a target="_blank" href="https://${network}etherscan.io/tx/${txHash}" class="nounderline">${txHash}</a>`;
                         ProveIt.stateChange(form.find("[role='alert']"), `Transaction Hash: ${txLink}`, "info");
                     }
@@ -631,7 +635,9 @@ ProveIt = (function($) {
                         var network = {
                             "Mainnet": "",
                             "Rinkeby (proof-of-authority)": "rinkeby.",
-                            "Ropsten (test)": "ropsten."}[ProveIt.web3Status.networkName];
+                            "Ropsten (test)": "ropsten.",
+		                        "Ellaism": "ellaism.",
+		                        "Shikinseki (test)": "shikinseki."}[ProveIt.web3Status.networkName];
                         var txLink = `<a target="_blank" href="https://${network}etherscan.io/tx/${txHash}" class="nounderline">${txHash}</a>`;
                         ProveIt.stateChange(form.find("[role='alert']"), `Transaction Hash: ${txLink}`, "info");
                     }
@@ -758,10 +764,10 @@ ProveIt = (function($) {
                 if (!web3.currentProvider.isMetaMask) {
                     ProveIt.disable(["submit"], "prove");
                 }
-            } else {
-                window.web3 = new Web3(new Web3.providers.HttpProvider("https://mainnet.infura.io/zKmHyEn4VwJ4in3cptiL"));
-                ProveIt.web3Status.defaultedToInfura = true;
-                ProveIt.disable(["submit"], "prove");
+            // } else {
+            //     window.web3 = new Web3(new Web3.providers.HttpProvider("https://mainnet.infura.io/zKmHyEn4VwJ4in3cptiL"));
+            //     ProveIt.web3Status.defaultedToInfura = true;
+            //     ProveIt.disable(["submit"], "prove");
             }
             ProveIt.web3CheckOnce();
             ProveIt.web3CheckMany();
@@ -789,6 +795,14 @@ ProveIt = (function($) {
                     contracts.Hash.address = "0x125bbe680d2c6665151ad8c9c89727a64683fdcb";
                     contracts.Prover.address = "0x286e1143ab350d0238be4494da6dab9ca3662517";
                     break;
+		            case "Ellaism":
+				            contracts.Hash.address = "0xca260ffffb0270ee07ec6892fa9d44f040454e4d";
+				            contracts.Prover.address = "0x117ca39dffc4da6fb3af6145dfff246830637fe2";
+				            break;
+		            case "Shikinseki":
+				            contracts.Hash.address = "0x19ad75f110d5bdbd567a0c3fed48154d38054ace";
+				            contracts.Prover.address = "0x386ba35c5ccbb39c52eb9fd0c8e6ec152c6d8aa5";
+				            break;
             }
             Object.keys(contracts).map(key => {
                 ProveIt[key] = web3.eth.contract(contracts[key].abi).at(contracts[key].address);
@@ -876,6 +890,12 @@ ProveIt = (function($) {
                         case "42":
                             networkName = 'Kovan (proof-of-authority)';
                             break;
+	                      case "64":
+				                    networkName = 'Ellaism';
+				                    break;
+		                    case "16448":
+				                    networkName = 'Shikinseki';
+				                    break;
                         default:
                             networkName = 'unknown';
                     }
@@ -894,20 +914,11 @@ ProveIt = (function($) {
                 ProveIt.updateWeb3Tooltip();
             });
         },
-
-        windowReadyWrapper: function () {
-            if (ProveIt.windowReady & ProveIt.DOMReady) {
-                ProveIt.initializeWeb3();
-            } else {
-                setTimeout(ProveIt.windowReadyWrapper, 250);
-            }
-        }
     };
 })(jQuery, browserifyModules);
 
 // DOM-dependent code
 $(function() {
-    ProveIt.DOMReady = true;
     // initialize the web3 button popover
     $("#web3Button").popover({"html": true});
 
@@ -925,14 +936,26 @@ $(function() {
 
     // intialize clipboard
     ProveIt.initializeClipboard();
-
-    // make sure web3 gets initialized
-    ProveIt.windowReadyWrapper();
 });
 
-// window-dependent code
-$(window).on("load", function () {
-    ProveIt.windowReady = true;
-    // make sure web3 gets initialized
-    ProveIt.windowReadyWrapper();
+window.addEventListener('load', () => {
+	// If web3 is not injected (modern browsers)...
+	if (typeof web3 === 'undefined') {
+		// Listen for provider injection
+		window.addEventListener('message', ({ data }) => {
+			if (data && data.type && data.type === 'ETHEREUM_PROVIDER_SUCCESS') {
+				// Use injected provider, start dapp...
+				web3 = new Web3(ethereum);
+				ProveIt.initializeWeb3();
+			}
+		});
+		// Request provider
+		window.postMessage({ type: 'ETHEREUM_PROVIDER_REQUEST' }, '*');
+	}
+	// If web3 is injected (legacy browsers)...
+	else {
+		// Use injected provider, start dapp
+		web3 = new Web3(web3.currentProvider);
+		ProveIt.initializeWeb3();
+	}
 });
