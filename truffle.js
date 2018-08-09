@@ -10,6 +10,8 @@ var Web3Subprovider = require("web3-provider-engine/subproviders/provider.js");
 var privateKey = secrets.config.myPrivateKey;
 var wallet = ethereumjsWallet.fromPrivateKey(new Buffer(privateKey, "hex"));
 
+Web3.providers.HttpProvider.prototype.sendAsync = Web3.providers.HttpProvider.prototype.send;
+
 // mainnet
 var providerURL = {
 	Ellaism: "https://jsonrpc.ellaism.org",
