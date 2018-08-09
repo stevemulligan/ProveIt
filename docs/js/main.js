@@ -149,7 +149,7 @@ ProveIt = (function($) {
             function updateUsers (addresses, names) {
                 var entries = [];
                 var network = {
-                    "Ellaism": "ellaism.",
+                    "Ellaism": "",
 		                "Shikinseki (test)": "shikinseki."}[ProveIt.web3Status.networkName];
                 for (let i=0; i < addresses.length; i++) {
                     entries.push(userEntry(addresses[i], names[i], network));
@@ -515,7 +515,7 @@ ProveIt = (function($) {
                         ProveIt.stateChange(form.find("[role='alert']"), "Error.", "error");
                     } else {
                         var network = {
-		                        "Ellaism": "ellaism.",
+		                        "Ellaism": "",
 		                        "Shikinseki (test)": "testnet."}[ProveIt.web3Status.networkName];
                         var txLink = `<a target="_blank" href="https://explorer.${network}ellaism.org/tx/${txHash}" class="nounderline">${txHash}</a>`;
                         ProveIt.stateChange(form.find("[role='alert']"), `Transaction Hash: ${txLink}`, "info");
