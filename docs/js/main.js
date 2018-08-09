@@ -1,7 +1,7 @@
 /*jshint esversion: 6 */
 ProveIt = (function($) {
     return {
-        web3Status: {"supportedNetworks": ["Mainnet", "Rinkeby (proof-of-authority)", "Ropsten (test)", "Ellaism", "Shikinseki"]},
+        web3Status: {"supportedNetworks": ["Ellaism", "Shikinseki"]},
 
         changeTooltipTitle: function (tooltip, text) {
             var originalTitle = $(tooltip).attr("data-original-title");
@@ -149,10 +149,7 @@ ProveIt = (function($) {
             function updateUsers (addresses, names) {
                 var entries = [];
                 var network = {
-                    "Mainnet": "",
-                    "Rinkeby (proof-of-authority)": "rinkeby.",
-                    "Ropsten (test)": "ropsten.",
-		                "Ellaism": "ellaism.",
+                    "Ellaism": "ellaism.",
 		                "Shikinseki (test)": "shikinseki."}[ProveIt.web3Status.networkName];
                 for (let i=0; i < addresses.length; i++) {
                     entries.push(userEntry(addresses[i], names[i], network));
@@ -518,12 +515,9 @@ ProveIt = (function($) {
                         ProveIt.stateChange(form.find("[role='alert']"), "Error.", "error");
                     } else {
                         var network = {
-                            "Mainnet": "",
-                            "Rinkeby (proof-of-authority)": "rinkeby.",
-                            "Ropsten (test)": "ropsten.",
 		                        "Ellaism": "ellaism.",
-		                        "Shikinseki (test)": "shikinseki."}[ProveIt.web3Status.networkName];
-                        var txLink = `<a target="_blank" href="https://${network}etherscan.io/tx/${txHash}" class="nounderline">${txHash}</a>`;
+		                        "Shikinseki (test)": "testnet."}[ProveIt.web3Status.networkName];
+                        var txLink = `<a target="_blank" href="https://explorer.${network}ellaism.org/tx/${txHash}" class="nounderline">${txHash}</a>`;
                         ProveIt.stateChange(form.find("[role='alert']"), `Transaction Hash: ${txLink}`, "info");
                     }
                 });
@@ -633,12 +627,9 @@ ProveIt = (function($) {
                         ProveIt.stateChange(form.find("[role='alert']"), "Error.", "error");
                     } else {
                         var network = {
-                            "Mainnet": "",
-                            "Rinkeby (proof-of-authority)": "rinkeby.",
-                            "Ropsten (test)": "ropsten.",
-		                        "Ellaism": "ellaism.",
-		                        "Shikinseki (test)": "shikinseki."}[ProveIt.web3Status.networkName];
-                        var txLink = `<a target="_blank" href="https://${network}etherscan.io/tx/${txHash}" class="nounderline">${txHash}</a>`;
+		                        "Ellaism": "",
+		                        "Shikinseki (test)": "testnet."}[ProveIt.web3Status.networkName];
+                        var txLink = `<a target="_blank" href="https://explorer.${network}ellaism.org/tx/${txHash}" class="nounderline">${txHash}</a>`;
                         ProveIt.stateChange(form.find("[role='alert']"), `Transaction Hash: ${txLink}`, "info");
                     }
                 });
@@ -783,18 +774,6 @@ ProveIt = (function($) {
                 }
             };
             switch (network) {
-                case "Mainnet":
-                    contracts.Hash.address = "0xca260ffffb0270ee07ec6892fa9d44f040454e4d";
-                    contracts.Prover.address = "0x117ca39dffc4da6fb3af6145dfff246830637fe2";
-                    break;
-                case "Rinkeby (proof-of-authority)":
-                    contracts.Hash.address = "0x125bbe680d2c6665151ad8c9c89727a64683fdcb";
-                    contracts.Prover.address = "0x286e1143ab350d0238be4494da6dab9ca3662517";
-                    break;
-                case "Ropsten (test)":
-                    contracts.Hash.address = "0x125bbe680d2c6665151ad8c9c89727a64683fdcb";
-                    contracts.Prover.address = "0x286e1143ab350d0238be4494da6dab9ca3662517";
-                    break;
 		            case "Ellaism":
 				            contracts.Hash.address = "0xfd45e9b7740d65abd83d39f924f802c3cff6d4f7";
 				            contracts.Prover.address = "0xbcbe459da3524686738bf47cc883a9e13cd67978";
@@ -833,9 +812,9 @@ ProveIt = (function($) {
                     .popover({"html": true});
             }
             if (ProveIt.web3Status.defaultedToInfura) {
-                changeButton("warning", `We couldn't detect a Web3 provider, which means that your browser can't interact with the Ethereum blockchain. ProveIt has fallen back to a read-only state on the mainnet. If you'd like to make a submission, please install the secure digital wallet <a target='_blank' href='https://metamask.io/' class='nounderline'>MetaMask</a>.`, ProveIt.web3Status.networkName);
+                changeButton("warning", `We couldn't detect a Web3 provider, which means that your browser can't interact with the Ellaism network. If you'd like to make a submission, please install the secure digital wallet <a target='_blank' href='https://metamask.io/' class='nounderline'>MetaMask</a>.`, ProveIt.web3Status.networkName);
             } else {
-                changeButton("success", `Active connection detected! You're plugged into the Ethereum <strong>${ProveIt.web3Status.networkName}</strong> network, courtesy of <strong>${ProveIt.web3Status.providerName}</strong>.`, ProveIt.web3Status.networkName);
+                changeButton("success", `Active connection detected! You're plugged into the <strong>${ProveIt.web3Status.networkName}</strong> network, courtesy of <strong>${ProveIt.web3Status.providerName}</strong>.`, ProveIt.web3Status.networkName);
             }
         },
 
@@ -872,24 +851,6 @@ ProveIt = (function($) {
                 }
                 else {
                     switch (networkId) {
-                        case "0":
-                            networkName = 'Olympic (pre-release)';
-                            break;
-                        case "1":
-                            networkName = 'Mainnet';
-                            break;
-                        case "2":
-                            networkName = 'Morden (deprecated)';
-                            break;
-                        case "3":
-                            networkName = 'Ropsten (test)';
-                            break;
-                        case "4":
-                            networkName = 'Rinkeby (proof-of-authority)';
-                            break;
-                        case "42":
-                            networkName = 'Kovan (proof-of-authority)';
-                            break;
 	                      case "64":
 				                    networkName = 'Ellaism';
 				                    break;
