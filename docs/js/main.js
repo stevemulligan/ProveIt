@@ -133,11 +133,11 @@ ProveIt = (function($) {
             }
 
             function userEntry(address, name, network) {
-                var newline = name == "" ? "": `<br><small><a target="_blank" href="https://${network}etherscan.io/enslookup?q=${name}" class="nounderline">${name}</a></small>`;
+                var newline = name == "" ? "": `<br><small><a target="_blank" href="https://explorer.${network}ellaism.org/address/${name}" class="nounderline">${name}</a></small>`;
                 var out=`
                 <div class="list-group-item d-flex justify-content-between align-items-center flex-nowrap">
                 <div class="order-md-1 order-3">
-                <a target="_blank" href="https://${network}etherscan.io/address/${address}" class="nounderline">${address}</a>
+                <a target="_blank" href="https://explorer.${network}ellaism.org/address/${address}" class="nounderline">${address}</a>
                 ${newline}
                 </div>
                 <div class="order-md-2 order-2 mr-3"></div>
