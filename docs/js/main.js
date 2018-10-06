@@ -858,7 +858,7 @@ ProveIt = (function($) {
 				                    networkName = 'Shikinseki';
 				                    break;
                         default:
-                            networkName = 'unknown';
+                            networkName = 'unknown: ' + networkId;
                     }
                 }
                 ProveIt.web3Status.networkName = networkName;
